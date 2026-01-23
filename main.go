@@ -25,7 +25,7 @@ func main() {
 		apiProduct.GetAllProduct(w, r)
 	})
 
-	http.HandleFunc("/api/category/", func(w http.ResponseWriter, r *http.Request) {
+	http.HandleFunc("/categories/", func(w http.ResponseWriter, r *http.Request) {
 		if r.Method == "GET" {
 			apiCategory.GetCategoryById(w, r)
 		} else if r.Method == "PUT" {
@@ -35,8 +35,8 @@ func main() {
 		}
 
 	})
-	// routes Category /api/category
-	http.HandleFunc("/api/category", func(w http.ResponseWriter, r *http.Request) {
+	// routes Category /category
+	http.HandleFunc("/categories", func(w http.ResponseWriter, r *http.Request) {
 		apiCategory.GetAllCategory(w, r)
 	})
 

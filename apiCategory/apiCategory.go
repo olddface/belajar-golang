@@ -8,22 +8,26 @@ import (
 )
 
 type Category struct {
-	Id   int    `json:"id"`
-	Nama string `json:"nama"`
+	ID          int    `json:"id"`
+	Name        string `json:"name"`
+	Description string `json:"description"`
 }
 
 var category = []Category{
 	{
-		Id:   1,
-		Nama: "Category 1",
+		ID:          1,
+		Name:        "Category 1",
+		Description: "Deskripsi Category 1",
 	},
 	{
-		Id:   2,
-		Nama: "Category 2",
+		ID:          2,
+		Name:        "Category 2",
+		Description: "Deskripsi Category 2",
 	},
 	{
-		Id:   3,
-		Nama: "Category 3",
+		ID:          3,
+		Name:        "Category 3",
+		Description: "Deskripsi Category 3",
 	},
 }
 
@@ -43,7 +47,7 @@ func GetAllCategory(w http.ResponseWriter, r *http.Request) {
 			})
 			return
 		}
-		newCategory.Id = len(category) + 1
+		newCategory.ID = category[len(category)-1].ID + 1
 		category = append(category, newCategory)
 		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusCreated)
@@ -52,7 +56,7 @@ func GetAllCategory(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetCategoryById(w http.ResponseWriter, r *http.Request) {
-	idStr := strings.TrimPrefix(r.URL.Path, "/api/category/")
+	idStr := strings.TrimPrefix(r.URL.Path, "/categories/")
 	id, err := strconv.Atoi(idStr)
 	if err != nil {
 		w.Header().Set("Content-Type", "application/json")
@@ -60,7 +64,7 @@ func GetCategoryById(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	for _, p := range category {
-		if p.Id == id {
+		if p.ID == id {
 			w.Header().Set("Content-Type", "application/json")
 			json.NewEncoder(w).Encode(p)
 			return
@@ -69,7 +73,7 @@ func GetCategoryById(w http.ResponseWriter, r *http.Request) {
 }
 
 func UpdateCategoryById(w http.ResponseWriter, r *http.Request) {
-	idStr := strings.TrimPrefix(r.URL.Path, "/api/category/")
+	idStr := strings.TrimPrefix(r.URL.Path, "/categories/")
 	id, err := strconv.Atoi(idStr)
 	if err != nil {
 		w.Header().Set("Content-Type", "application/json")
@@ -88,8 +92,8 @@ func UpdateCategoryById(w http.ResponseWriter, r *http.Request) {
 	}
 
 	for i := range category {
-		if category[i].Id == id {
-			updateCategory.Id = id
+		if category[i].ID == id {
+			updateCategory.ID = id
 			category[i] = updateCategory
 
 			w.Header().Set("Content-Type", "application/json")
@@ -102,7 +106,7 @@ func UpdateCategoryById(w http.ResponseWriter, r *http.Request) {
 }
 
 func DeleteCategoryById(w http.ResponseWriter, r *http.Request) {
-	idStr := strings.TrimPrefix(r.URL.Path, "/api/category/")
+	idStr := strings.TrimPrefix(r.URL.Path, "/categories/")
 	id, err := strconv.Atoi(idStr)
 	if err != nil {
 		w.Header().Set("Content-Type", "application/json")
@@ -111,7 +115,7 @@ func DeleteCategoryById(w http.ResponseWriter, r *http.Request) {
 	}
 
 	for i := range category {
-		if category[i].Id == id {
+		if category[i].ID == id {
 			category = append(category[:i], category[i+1:]...)
 			w.Header().Set("Content-Type", "application/json")
 			json.NewEncoder(w).Encode(map[string]string{
