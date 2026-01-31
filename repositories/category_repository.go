@@ -132,9 +132,9 @@ func (repo *CategoryRepository) Delete(id int) error {
 }
 
 func (repo *CategoryRepository) GetByID(id int) (*models.Category, error) {
-	query := "SELECT id, name FROM categories WHERE id = $1"
+	query := "SELECT id, name, description FROM categories WHERE id = $1"
 	var c models.Category
-	err := repo.db.QueryRow(query, id).Scan(&c.ID, &c.Name)
+	err := repo.db.QueryRow(query, id).Scan(&c.ID, &c.Name, &c.Description)
 	if err == sql.ErrNoRows {
 		return nil, errors.New("category not found")
 	}
