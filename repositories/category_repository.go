@@ -15,7 +15,7 @@ func NewCategoryRepository(db *sql.DB) *CategoryRepository {
 }
 
 func (repo *CategoryRepository) GetAll() ([]models.Category, error) {
-	query := "SELECT id, name FROM categories"
+	query := "SELECT id, name, description FROM categories"
 	rows, err := repo.db.Query(query)
 	if err != nil {
 		return nil, err
@@ -25,7 +25,7 @@ func (repo *CategoryRepository) GetAll() ([]models.Category, error) {
 	categories := make([]models.Category, 0)
 	for rows.Next() {
 		var c models.Category
-		err := rows.Scan(&c.ID, &c.Name)
+		err := rows.Scan(&c.ID, &c.Name, &c.Description)
 		if err != nil {
 			return nil, err
 		}
